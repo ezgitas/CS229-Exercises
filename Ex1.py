@@ -17,16 +17,30 @@ def gradient_descent(a,b,theta,alpha,iterations):
 	for i in range(iterations):
 		h = (a*theta.T)-b			# Error function
 
-		for j in range(len(a)):
-			a_error = np.multiply(a[:,j],h)
-			# theta_new.append(theta[0,j]-alpha/len(a)*np.sum(a_error[:,j]))
-			# theta = theta_new
-		
-		# cost.append(cost_function(a,b,theta_new))
-	return a_error
+		for j in range(len(theta.T)):
+			a_error = np.multiply(h,a[:,j])
+			theta_new.append(theta[0,j]-alpha/len(a)*np.sum(a_error[:,j]))
+			theta = theta_new
+		append(cost_function(a,b,theta_new))
+	return theta_new
 
 
-
+def gradientDescent(X, y, theta, alpha, iters):
+    temp = np.matrix(np.zeros(theta.shape))
+    parameters = int(theta.ravel().shape[1])
+    cost = np.zeros(iters)
+    
+    for i in range(iters):
+        error = (X * theta.T) - y
+        
+        for j in range(parameters):
+            term = np.multiply(error, X[:,j])
+    #         temp[0,j] = theta[0,j] - ((alpha / len(X)) * np.sum(term))
+            
+    #     theta = temp
+    #     cost[i] = cost_function(X, y, theta)
+        
+    return term
 
 path = os.getcwd() + '/ex1data1.txt'
 data = pd.read_csv(path, header=None, names=['Population of City in 10,000s', 'Profit in $10,000s'])
@@ -48,7 +62,6 @@ theta = np.matrix(np.array([0,0]))
 alpha = 0.01
 iterations = 1000
 
-print(gradient_descent(a, b, theta, alpha, iterations))
-
-
+print(gradient_descent(a,b,theta,alpha,iterations))
+# print(gradientDescent(a,b,theta,alpha,iterations))
 
